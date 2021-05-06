@@ -31,6 +31,6 @@ module.exports = function (defaults) {
     staticAddonTrees: true,
     staticHelpers: true,
     staticComponents: true,
-    // splitAtRoutes: ['route.name'], // can also be a RegExp
+    splitAtRoutes: ['bands.band.songs', 'bands.new'], // can also be a RegExp
   });
 };
