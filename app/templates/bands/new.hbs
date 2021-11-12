@@ -3,18 +3,21 @@
 <h3 class="text-lg leading-6 font-medium text-gray-100">
   New band
 </h3>
-<div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-  <div class="sm:col-span-4">
-    <label for="name" class="block text-sm font-medium leading-5">Name</label>
-    <div class="mt-1 relative rounded-md shadow-sm">
-      <input
-        id="name"
-        type="text"
-        class="w-full text-gray-800 bg-white border rounded-md py-2 px-4"
-        value={{this.name}}
-        data-test-rr="new-band-name"
-        {{on "input" this.updateName}}
-      />
+
+<form method="post" enctype="multipart/form-data">
+  <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+    <div class="sm:col-span-4">
+      <label for="name" class="block text-sm font-medium leading-5">Name</label>
+      <div class="mt-1 relative rounded-md shadow-sm">
+        <input
+          id="name"
+          type="text"
+          class="w-full text-gray-800 bg-white border rounded-md py-2 px-4"
+          value={{this.name}}
+          data-test-rr="new-band-name"
+          {{on "input" this.updateName}}
+        />
+      </div>
     </div>
     <div class="sm:col-span-4">
       <label for="image" class="block text-sm font-medium text-gray-100">
@@ -46,24 +49,21 @@
             </p>
           </div>
         </div>
-        <p class="text-xs text-gray-400">
-          PNG, JPG, GIF up to 10MB
-        </p>
+      </div>
+    </div>
+    <div class="sm:col-span-4">
+      <div class="pt-5">
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            class="px-4 py-2 rounded bg-purple-600 shadow-md hover:shadow-lg hover:text-white"
+            data-test-rr="save-band-button"
+            {{on "click" this.saveBand}}
+          >
+            Save
+          </button>
+        </div>
       </div>
     </div>
   </div>
-  <div class="sm:col-span-4">
-    <div class="pt-5">
-      <div class="flex justify-end">
-        <button
-          type="button"
-          class="px-4 py-2 rounded bg-purple-600 shadow-md hover:shadow-lg hover:text-white"
-          data-test-rr="save-band-button"
-          {{on "click" this.saveBand}}
-        >
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+</form>
