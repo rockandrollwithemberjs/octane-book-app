@@ -8,6 +8,7 @@ export default class BandsNewController extends Controller {
   @service router;
 
   @tracked name;
+  @tracked imagePreviewSrc;
 
   constructor() {
     super(...arguments);
@@ -34,6 +35,12 @@ export default class BandsNewController extends Controller {
   @action
   updateName(event) {
     this.name = event.target.value;
+  }
+
+  @action
+  didUploadImage(event) {
+    let [ file ] = event.target.files;
+    this.imagePreviewSrc = URL.createObjectURL(file);
   }
 
   @action
