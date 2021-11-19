@@ -2,13 +2,14 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
-
+import fetch from 'fetch';
 export default class BandsNewController extends Controller {
   @service catalog;
   @service router;
 
   @tracked name;
   @tracked imagePreviewSrc;
+  imageToUpload;
 
   constructor() {
     super(...arguments);
@@ -40,12 +41,34 @@ export default class BandsNewController extends Controller {
   @action
   didUploadImage(event) {
     let [ file ] = event.target.files;
+    this.imageToUpload = file;
     this.imagePreviewSrc = URL.createObjectURL(file);
   }
 
   @action
   async saveBand(event) {
     event.preventDefault();
+    // The actual file only needs to be passed if we want to restrict
+    // handing out presigned URLs based on it (type, size, etc.)
+    let response = await fetch('/presigned-aws-url', {
+      method: 'POST',
+    });
+    let { url, url_fields: urlFields } = await response.json();
+    console.log(response);
+
+    let imageUploadResponse = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': this.imageToUpload.type,
+      },
+      body: {
+        ...urlFields,
+        file: this.imageToUpload,
+      },
+    });
+    let response2 = await imageUploadResponse.json();
+    console.log(response2);
+
     let band = await this.catalog.create('band', { name: this.name });
     this.confirmedLeave = true;
     this.router.transitionTo('bands.band.songs', band.id);
