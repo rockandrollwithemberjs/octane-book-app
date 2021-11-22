@@ -40,7 +40,7 @@ export default class BandsNewController extends Controller {
 
   @action
   didUploadImage(event) {
-    let [ file ] = event.target.files;
+    let [file] = event.target.files;
     this.imageToUpload = file;
     this.imagePreviewSrc = URL.createObjectURL(file);
   }
@@ -48,26 +48,26 @@ export default class BandsNewController extends Controller {
   @action
   async saveBand(event) {
     event.preventDefault();
-    // The actual file only needs to be passed if we want to restrict
+    //TODO: The actual file only needs to be passed if we want to restrict
     // handing out presigned URLs based on it (type, size, etc.)
     let response = await fetch('/presigned-aws-url', {
       method: 'POST',
     });
     let { url, url_fields: urlFields } = await response.json();
-    console.log(response);
+
+    let formData = new FormData();
+    for (let field in urlFields) {
+      formData.append(field, urlFields[field]);
+    }
+    formData.append('file', this.imageToUpload);
 
     let imageUploadResponse = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': this.imageToUpload.type,
-      },
-      body: {
-        ...urlFields,
-        file: this.imageToUpload,
-      },
+      body: formData,
     });
-    let response2 = await imageUploadResponse.json();
-    console.log(response2);
+    await imageUploadResponse.json();
+    //TODO: Get the `Location` response header which is where the uploaded image lives
+    //TODO: If the upload was successful, then we should reset `this.imageToUpload`
 
     let band = await this.catalog.create('band', { name: this.name });
     this.confirmedLeave = true;
