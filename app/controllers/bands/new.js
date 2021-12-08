@@ -50,7 +50,7 @@ export default class BandsNewController extends Controller {
     event.preventDefault();
     //TODO: The actual file only needs to be passed if we want to restrict
     // handing out presigned URLs based on it (type, size, etc.)
-    let response = await fetch('/presigned-aws-url', {
+    let response = await fetch('/presign-aws-request', {
       method: 'POST',
     });
     let { url, url_fields: urlFields } = await response.json();
