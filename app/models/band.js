@@ -4,10 +4,11 @@ export default class Band {
   @tracked name;
   @tracked songs;
 
-  constructor({ id, name, songs, imageURL, description }, relationships = {}) {
+  constructor(attributes, relationships = {}) {
+    let { id, name, songs, description } = attributes;
     this.id = id;
     this.name = name;
-    this.imageURL = imageURL;
+    this.imageUrl = attributes['image-url'];
     this.songs = songs || [];
     this.relationships = relationships;
     this.description = description;

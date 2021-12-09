@@ -54,6 +54,9 @@ export default class BandsNewController extends Controller {
       method: 'POST',
     });
     let { url, url_fields: urlFields } = await response.json();
+    let bandProperties = {
+      name: this.name,
+    };
 
     let formData = new FormData();
     for (let field in urlFields) {
@@ -65,11 +68,13 @@ export default class BandsNewController extends Controller {
       method: 'POST',
       body: formData,
     });
-    await imageUploadResponse.json();
-    //TODO: Get the `Location` response header which is where the uploaded image lives
-    //TODO: If the upload was successful, then we should reset `this.imageToUpload`
 
-    let band = await this.catalog.create('band', { name: this.name });
+    if (imageUploadResponse.ok) {
+      bandProperties['image-url'] = imageUploadResponse.headers.get('Location');
+      //TODO: If the upload was successful, then we should reset `this.imageToUpload` ?
+    }
+
+    let band = await this.catalog.create('band', bandProperties);
     this.confirmedLeave = true;
     this.router.transitionTo('bands.band.songs', band.id);
   }
