@@ -3,6 +3,8 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 import fetch from 'fetch';
+
+const MAX_IMAGE_SIZE = 1 * 1024 * 1024;
 export default class BandsNewController extends Controller {
   @service catalog;
   @service router;
@@ -10,6 +12,8 @@ export default class BandsNewController extends Controller {
   @tracked name;
   @tracked imagePreviewSrc;
   imageToUpload;
+
+  @tracked validationError;
 
   constructor() {
     super(...arguments);
@@ -40,7 +44,12 @@ export default class BandsNewController extends Controller {
 
   @action
   didUploadImage(event) {
+    this.validationError = '';
     let [file] = event.target.files;
+    if (file.size > MAX_IMAGE_SIZE) {
+      this.validationError = 'Image should be smaller than 2MB.';
+      return;
+    }
     this.imageToUpload = file;
     this.imagePreviewSrc = URL.createObjectURL(file);
   }
@@ -50,12 +59,6 @@ export default class BandsNewController extends Controller {
     event.preventDefault();
     let response = await fetch('/presign-aws-request', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        type: this.imageToUpload.type,
-      }),
     });
     let { url, url_fields: urlFields } = await response.json();
     let bandProperties = {
