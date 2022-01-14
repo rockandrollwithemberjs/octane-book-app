@@ -5,7 +5,7 @@ export default class BandsBandIndexRoute extends Route {
   @service router;
 
   redirect(band) {
-    if (band.description) {
+    if (band.hasDetails) {
       this.router.transitionTo('bands.band.details');
     } else {
       this.router.transitionTo('bands.band.songs');

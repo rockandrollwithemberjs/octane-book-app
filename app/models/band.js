@@ -13,4 +13,8 @@ export default class Band {
     this.relationships = relationships;
     this.description = description;
   }
+
+  get hasDetails() {
+    return this.description || this.imageUrl;
+  }
 }
