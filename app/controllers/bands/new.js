@@ -71,7 +71,7 @@ export default class BandsNewController extends Controller {
 
     if (imageUploadResponse.ok) {
       bandProperties['image-url'] = imageUploadResponse.headers.get('Location');
-      //TODO: If the upload was successful, then we should reset `this.imageToUpload` ?
+      this.imageToUpload = null;
     }
 
     let band = await this.catalog.create('band', bandProperties);
