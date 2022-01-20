@@ -2,6 +2,8 @@
 
 <h2 class="mb-4 text-lg">{{@model.name}}</h2>
 <div class="flex gap-4">
-  <img class="w-full" src={{@model.imageUrl}} title={{@model.name}} alt={{@model.name}} />
+  {{#if @model.imageUrl}}
+    <img class="w-full" src={{@model.imageUrl}} title={{@model.name}} alt={{@model.name}} />
+  {{/if}}
   <p>{{@model.description}}</p>
 </div>
