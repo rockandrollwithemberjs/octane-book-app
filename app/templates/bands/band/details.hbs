@@ -1,6 +1,11 @@
 {{page-title @model.name " details | Rock & Roll with Octane" replace=true}}
 
-<h2 class="mb-4 text-lg">{{@model.name}}</h2>
+<div class="flex mb-4 justify-between">
+  <h2 class="text-lg">{{@model.name}}</h2>
+  <LinkTo class="ml-auto border-b-4 border-transparent hover:border-purple-400" @route="bands.edit-band" @model={{@model.id}}>
+    Edit
+  </LinkTo>
+</div>
 <div class="flex gap-4">
   {{#if @model.imageUrl}}
     <img class="w-full" src={{@model.imageUrl}} title={{@model.name}} alt={{@model.name}} />
