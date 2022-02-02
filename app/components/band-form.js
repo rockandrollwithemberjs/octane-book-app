@@ -17,6 +17,16 @@ export default class BandFormComponent extends Component {
 
   @tracked validationError;
 
+  constructor() {
+    super(...arguments);
+    if (!this.args.band) {
+      return;
+    }
+    let { name, imageUrl } = this.args.band;
+    this.name = name;
+    this.imagePreviewSrc = imageUrl;
+  }
+
   @action
   updateName(event) {
     this.name = event.target.value;

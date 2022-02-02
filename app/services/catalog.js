@@ -119,20 +119,25 @@ export default class CatalogService extends Service {
       type === 'band'
         ? `${this.bandsURL}/${record.id}`
         : `${this.songsURL}/${record.id}`;
-    await fetch(url, {
+
+    let response = await fetch(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/vnd.api+json',
       },
       body: JSON.stringify(payload),
     });
+    let json = await response.json();
+    return this.load(json);
   }
 
   add(type, record) {
     let collection = type === 'band' ? this.storage.bands : this.storage.songs;
-    let recordIds = collection.map((record) => record.id);
-    if (!recordIds.includes(record.id)) {
+    let existingIndex = collection.findIndex((r) => record.id === r.id);
+    if (existingIndex === -1) {
       collection.push(record);
+    } else {
+      collection.splice(existingIndex, 1, record);
     }
   }
 

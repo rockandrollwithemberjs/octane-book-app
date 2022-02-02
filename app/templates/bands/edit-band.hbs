@@ -1,0 +1,10 @@
+{{page-title "Edit " @model.name "| Rock & Roll with Octane" replace=true}}
+
+<h3 class="text-lg leading-6 font-medium text-gray-100">
+  Edit band
+</h3>
+
+<BandForm
+  @band={{@model}}
+  @onSave={{fn this.updateBand @model}}
+/>
