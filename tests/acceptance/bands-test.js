@@ -1,9 +1,14 @@
 import { module, test } from 'qunit';
-import { visit, waitFor } from '@ember/test-helpers';
+import {
+  visit,
+  waitFor,
+  click,
+  fillIn,
+  triggerEvent,
+} from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
-import { createBand } from 'rarwe/tests/helpers/custom-helpers';
 
 module('Acceptance | bands', function (hooks) {
   setupApplicationTest(hooks);
@@ -34,7 +39,15 @@ module('Acceptance | bands', function (hooks) {
     this.server.create('band', { name: 'Royal Blood' });
 
     await visit('/');
-    await createBand('Caspian');
+    await click('[data-test-rr="new-band-button"]');
+    await fillIn('[data-test-rr="new-band-name"]', 'Red Hot Chili Peppers');
+    let image = new File([], 'red-hot-chilli-peppers.jpg', {
+      size: 343697,
+      type: 'image/jpeg',
+    });
+    await triggerEvent('[name="file-upload"]', 'change', { files: [image] });
+
+    await click('[data-test-rr="save-band-button"]');
     await waitFor('[data-test-rr="no-songs-text"]');
 
     assert
@@ -42,7 +55,10 @@ module('Acceptance | bands', function (hooks) {
       .exists({ count: 2 }, 'A new band link is rendered');
     assert
       .dom('[data-test-rr="band-list-item"]:last-child')
-      .hasText('Caspian', 'The new band link is rendered as the last item');
+      .hasText(
+        'Red Hot Chili Peppers',
+        'The new band link is rendered as the last item'
+      );
     assert
       .dom('[data-test-rr="songs-nav-item"] > .active')
       .exists('The Songs tab is active');

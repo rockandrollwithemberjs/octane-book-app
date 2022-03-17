@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import fetch from 'fetch';
+import ENV from 'rarwe/config/environment';
 
 const MAX_IMAGE_SIZE_MB = 1;
 const MAX_IMAGE_SIZE = MAX_IMAGE_SIZE_MB * 1024 * 1024;
@@ -52,7 +53,7 @@ export default class BandFormComponent extends Component {
     };
 
     if (this.imageToUpload) {
-      let response = await fetch('/presign-aws-request', {
+      let response = await fetch(`${ENV.apiHost}/presign-aws-request`, {
         method: 'POST',
       });
       let { url, url_fields: urlFields } = await response.json();
