@@ -47,29 +47,34 @@ export default class BandFormComponent extends Component {
   @action
   async save(event) {
     event.preventDefault();
-    let response = await fetch('/presign-aws-request', {
-      method: 'POST',
-    });
-    let { url, url_fields: urlFields } = await response.json();
     let bandProperties = {
       name: this.name,
     };
 
-    let formData = new FormData();
-    for (let field in urlFields) {
-      formData.append(field, urlFields[field]);
-    }
-    formData.append('file', this.imageToUpload);
+    if (this.imageToUpload) {
+      let response = await fetch('/presign-aws-request', {
+        method: 'POST',
+      });
+      let { url, url_fields: urlFields } = await response.json();
 
-    let imageUploadResponse = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    });
+      let formData = new FormData();
+      for (let field in urlFields) {
+        formData.append(field, urlFields[field]);
+      }
+      formData.append('file', this.imageToUpload);
 
-    if (imageUploadResponse.ok) {
-      bandProperties['image-url'] = imageUploadResponse.headers.get('Location');
-      this.imageToUpload = null;
+      let imageUploadResponse = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (imageUploadResponse.ok) {
+        bandProperties['image-url'] =
+          imageUploadResponse.headers.get('Location');
+        this.imageToUpload = null;
+      }
     }
+
     return await this.args.onSave(bandProperties);
   }
 }
