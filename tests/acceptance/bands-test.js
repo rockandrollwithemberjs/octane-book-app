@@ -1,11 +1,5 @@
 import { module, test } from 'qunit';
-import {
-  visit,
-  waitFor,
-  click,
-  fillIn,
-  triggerEvent,
-} from '@ember/test-helpers';
+import { visit, waitFor } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
@@ -40,19 +34,17 @@ module('Acceptance | bands', function (hooks) {
     this.server.create('band', { name: 'Royal Blood' });
 
     await visit('/');
-    await click('[data-test-rr="new-band-button"]');
-    await fillIn('[data-test-rr="new-band-name"]', 'Red Hot Chili Peppers');
     let image = new File([], 'red-hot-chilli-peppers.jpg', {
       size: 343697,
       type: 'image/jpeg',
     });
-    await triggerEvent('[name="file-upload"]', 'change', { files: [image] });
-
-    await click('[data-test-rr="save-band-button"]');
+    await createBand({
+      name: 'Red Hot Chili Peppers',
+      image,
+    });
     await waitFor('[data-test-rr="band-image"]');
 
     assert.dom('[data-test-rr="band-image"]').exists('The band image is shown');
-
     assert
       .dom('[data-test-rr="band-list-item"]')
       .exists({ count: 2 }, 'A new band link is rendered');
@@ -71,7 +63,7 @@ module('Acceptance | bands', function (hooks) {
     this.server.create('band', { name: 'Royal Blood' });
 
     await visit('/');
-    await createBand('Caspian');
+    await createBand({ name: 'Caspian' });
 
     await waitFor('[data-test-rr="no-songs-text"]');
 
