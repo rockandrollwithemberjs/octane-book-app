@@ -9,6 +9,7 @@ import {
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
+import { createBand } from 'rarwe/tests/helpers/custom-helpers';
 
 module('Acceptance | bands', function (hooks) {
   setupApplicationTest(hooks);
@@ -35,7 +36,7 @@ module('Acceptance | bands', function (hooks) {
       );
   });
 
-  test('Create a band', async function (assert) {
+  test('Create a band — with image', async function (assert) {
     this.server.create('band', { name: 'Royal Blood' });
 
     await visit('/');
@@ -48,7 +49,9 @@ module('Acceptance | bands', function (hooks) {
     await triggerEvent('[name="file-upload"]', 'change', { files: [image] });
 
     await click('[data-test-rr="save-band-button"]');
-    await waitFor('[data-test-rr="no-songs-text"]');
+    await waitFor('[data-test-rr="band-image"]');
+
+    assert.dom('[data-test-rr="band-image"]').exists('The band image is shown');
 
     assert
       .dom('[data-test-rr="band-list-item"]')
@@ -59,6 +62,25 @@ module('Acceptance | bands', function (hooks) {
         'Red Hot Chili Peppers',
         'The new band link is rendered as the last item'
       );
+    assert
+      .dom('[data-test-rr="details-nav-item"] > .active')
+      .exists('The Details tab is active');
+  });
+
+  test('Create a band — without image', async function (assert) {
+    this.server.create('band', { name: 'Royal Blood' });
+
+    await visit('/');
+    await createBand('Caspian');
+
+    await waitFor('[data-test-rr="no-songs-text"]');
+
+    assert
+      .dom('[data-test-rr="band-list-item"]')
+      .exists({ count: 2 }, 'A new band link is rendered');
+    assert
+      .dom('[data-test-rr="band-list-item"]:last-child')
+      .hasText('Caspian', 'The new band link is rendered as the last item');
     assert
       .dom('[data-test-rr="songs-nav-item"] > .active')
       .exists('The Songs tab is active');

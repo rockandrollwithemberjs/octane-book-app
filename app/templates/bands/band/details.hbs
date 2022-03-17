@@ -8,7 +8,13 @@
 </div>
 <div class="flex gap-4">
   {{#if @model.imageUrl}}
-    <img class="w-full" src={{@model.imageUrl}} title={{@model.name}} alt={{@model.name}} />
+    <img
+      class="w-full"
+      src={{@model.imageUrl}}
+      title={{@model.name}}
+      alt={{@model.name}}
+      data-test-rr="band-image"
+    />
   {{/if}}
   <p>{{@model.description}}</p>
 </div>
