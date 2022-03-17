@@ -14,6 +14,8 @@ export default function () {
   });
 
   this.post('/bands');
+  this.patch('/bands/:id');
+
   this.post('/presign-aws-request', function () {
     return new Response(
       200,

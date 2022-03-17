@@ -2,7 +2,12 @@
 
 <div class="flex mb-4 justify-between">
   <h2 class="text-lg">{{@model.name}}</h2>
-  <LinkTo class="ml-auto border-b-4 border-transparent hover:border-purple-400" @route="bands.edit-band" @model={{@model.id}}>
+  <LinkTo
+    class="ml-auto border-b-4 border-transparent hover:border-purple-400"
+    @route="bands.edit-band"
+    @model={{@model.id}}
+    data-test-rr="edit-band-link"
+  >
     Edit
   </LinkTo>
 </div>

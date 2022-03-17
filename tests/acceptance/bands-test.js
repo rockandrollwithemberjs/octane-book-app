@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, waitFor } from '@ember/test-helpers';
+import { visit, waitFor, click, triggerEvent } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
@@ -76,5 +76,27 @@ module('Acceptance | bands', function (hooks) {
     assert
       .dom('[data-test-rr="songs-nav-item"] > .active')
       .exists('The Songs tab is active');
+  });
+
+  test('Add image to band', async function (assert) {
+    this.server.create('band', { name: 'Red Hot Chili Peppers' });
+
+    let image = new File([], 'red-hot-chilli-peppers.jpg', {
+      size: 343697,
+      type: 'image/jpeg',
+    });
+
+    await visit('/');
+    await click('[data-test-rr="band-link"]');
+    await click('[data-test-rr="details-nav-item"] > a');
+    await click('[data-test-rr="edit-band-link"]');
+    await triggerEvent('[name="file-upload"]', 'change', { files: [image] });
+    await click('[data-test-rr="save-band-button"]');
+    await waitFor('[data-test-rr="band-image"]');
+
+    assert.dom('[data-test-rr="band-image"]').exists('The band image is shown');
+    assert
+      .dom('[data-test-rr="details-nav-item"] > .active')
+      .exists('The Details tab is active');
   });
 });
