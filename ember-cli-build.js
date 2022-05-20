@@ -5,6 +5,10 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
+    'ember-fetch': {
+      nativePromise: true,
+      preferNative: true,
+    },
     postcssOptions: {
       compile: {
         plugins: [require('tailwindcss')('./tailwind.config.js')],

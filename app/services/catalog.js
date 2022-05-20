@@ -4,6 +4,7 @@ import Song from 'rarwe/models/song';
 import { tracked } from 'tracked-built-ins';
 import { isArray } from '@ember/array';
 import ENV from 'rarwe/config/environment';
+import fetch from 'fetch';
 
 function extractRelationships(object) {
   let relationships = {};

@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, waitFor, click, triggerEvent } from '@ember/test-helpers';
+import { visit, click, triggerEvent } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
@@ -42,7 +42,6 @@ module('Acceptance | bands', function (hooks) {
       name: 'Red Hot Chili Peppers',
       image,
     });
-    await waitFor('[data-test-rr="band-image"]');
 
     assert.dom('[data-test-rr="band-image"]').exists('The band image is shown');
     assert
@@ -64,8 +63,6 @@ module('Acceptance | bands', function (hooks) {
 
     await visit('/');
     await createBand({ name: 'Caspian' });
-
-    await waitFor('[data-test-rr="no-songs-text"]');
 
     assert
       .dom('[data-test-rr="band-list-item"]')
@@ -91,7 +88,6 @@ module('Acceptance | bands', function (hooks) {
     await click('[data-test-rr="edit-band-link"]');
     await triggerEvent('[name="file-upload"]', 'change', { files: [image] });
     await click('[data-test-rr="save-band-button"]');
-    await waitFor('[data-test-rr="band-image"]');
 
     assert.dom('[data-test-rr="band-image"]').exists('The band image is shown');
     assert
