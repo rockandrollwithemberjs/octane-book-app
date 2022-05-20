@@ -34,9 +34,9 @@ module('Acceptance | bands', function (hooks) {
     this.server.create('band', { name: 'Royal Blood' });
 
     await visit('/');
-    let image = new File([], 'red-hot-chilli-peppers.jpg', {
-      size: 343697,
+    let image = new File([''], 'red-hot-chilli-peppers.jpg', {
       type: 'image/jpeg',
+      size: 10000,
     });
     await createBand({
       name: 'Red Hot Chili Peppers',
@@ -82,7 +82,6 @@ module('Acceptance | bands', function (hooks) {
     this.server.create('band', { name: 'Red Hot Chili Peppers' });
 
     let image = new File([], 'red-hot-chilli-peppers.jpg', {
-      size: 343697,
       type: 'image/jpeg',
     });
 

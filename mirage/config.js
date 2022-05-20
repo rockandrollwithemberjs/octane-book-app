@@ -2,8 +2,9 @@ import { Response } from 'miragejs';
 
 const s3BucketUrl = 'https://rarwe-dev.s3.eu-west-1.amazonaws.com';
 const bucketName = 'rarwe-dev';
-const keyInBucket = 'image-uploads/69c4abfc-e900-4ec7-9263-c2506bdd4c19/';
-const imageFileName = 'red-hot-chilli-peppers.jpg';
+const imageId = '3a21ff32-ac44-4190-840e-8688962cc4e5';
+const keyInBucket = `image-uploads/${imageId}/`;
+const imageFileName = 'alexandre-st-louis-IlfpKwRMln0-unsplash.jpg';
 
 export default function () {
   this.get('/bands');
@@ -43,9 +44,9 @@ export default function () {
         Location: location,
       },
       `<PostResponse>
-        <Location>https://rarwe-dev.s3.eu-west-1.amazonaws.com/image-uploads%2F69c4abfc-e900-4ec7-9263-c2506bdd4c19%2Fred-hot-chilli-peppers.jpg</Location>
+        <Location>${location}</Location>
         <Bucket>${bucketName}</Bucket>
-        <Key>image-uploads/69c4abfc-e900-4ec7-9263-c2506bdd4c19/</Key>
+        <Key>${keyInBucket}</Key>
         <ETag>"0af669d3f4786c05d779a0a7d44f6c61"</ETag>
       </PostResponse>
       `
