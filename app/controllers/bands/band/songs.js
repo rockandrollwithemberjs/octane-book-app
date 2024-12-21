@@ -14,7 +14,7 @@ export default class BandsBandSongsController extends Controller {
     return !this.title;
   }
 
-  @service catalog;
+  @service store;
 
   get matchingSongs() {
     let searchTerm = this.searchTerm.toLowerCase();
@@ -49,7 +49,7 @@ export default class BandsBandSongsController extends Controller {
   @action
   async updateRating(song, rating) {
     song.rating = rating;
-    this.catalog.update('song', song, { rating });
+    await song.save();
   }
 
   @action
@@ -64,12 +64,11 @@ export default class BandsBandSongsController extends Controller {
 
   @action
   async saveSong() {
-    let song = await this.catalog.create(
-      'song',
-      { title: this.title },
-      { band: { data: { id: this.model.id, type: 'bands' } } }
-    );
-    this.model.songs = [...this.model.songs, song];
+    let song = this.store.createRecord('song', {
+      title: this.title,
+      band: this.model,
+    });
+    await song.save();
     this.title = '';
     this.showAddSong = true;
   }

@@ -2,9 +2,9 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 export default class BandsRoute extends Route {
-  @service catalog;
+  @service store;
 
-  async model() {
-    return this.catalog.fetchAll('bands');
+  model() {
+    return this.store.findAll('band');
   }
 }

@@ -4,8 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { service } from '@ember/service';
 
 export default class BandsNewController extends Controller {
-  @service catalog;
   @service router;
+  @service store;
 
   @tracked name;
 
@@ -42,7 +42,8 @@ export default class BandsNewController extends Controller {
 
   @action
   async saveBand() {
-    let band = await this.catalog.create('band', { name: this.name });
+    let band = this.store.createRecord('band', { name: this.name });
+    await band.save();
     this.confirmedLeave = true;
     this.router.transitionTo('bands.band.songs', band.id);
   }

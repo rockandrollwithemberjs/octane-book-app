@@ -1,13 +1,7 @@
-import { tracked } from '@glimmer/tracking';
+import Model, { attr, belongsTo } from '@ember-data/model';
 
-export default class Song {
-  @tracked rating;
-
-  constructor({ id, title, rating, band }, relationships = {}) {
-    this.id = id;
-    this.title = title;
-    this.rating = rating ?? 0;
-    this.band = band;
-    this.relationships = relationships;
-  }
+export default class Song extends Model {
+  @attr title;
+  @attr rating;
+  @belongsTo('band', { async: true, inverse: 'songs' }) band;
 }
