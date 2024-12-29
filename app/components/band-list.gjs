@@ -16,7 +16,6 @@ export default class BandListComponent extends Component {
   }
 
   <template>
-
     <ul class="pl-2 pr-8">
       {{#each this.bands as |item|}}
         <li class="mb-2" data-test-rr="band-list-item">
@@ -27,7 +26,6 @@ export default class BandListComponent extends Component {
             data-test-rr="band-link"
           >
             {{capitalize item.band.name}}
-            ({{item.band.songCount}})
           </LinkTo>
         </li>
       {{/each}}

@@ -9,11 +9,7 @@
         @query={{hash s="title"}}
       >
         Title
-        <FaIcon
-          class="ml-2"
-          @icon="angle-up"
-          @prefix="fas"
-        />
+        <FaIcon class="ml-2" @icon="angle-up" @prefix="fas" />
       </LinkTo>
       <LinkTo
         class="-ml-px inline-flex items-center px-4 py-2 border border-gray-500 bg-purple-600 leading-5 font-medium text-gray-100 hover:text-white hover:bg-purple-500"
@@ -21,11 +17,7 @@
         @query={{hash s="-title"}}
       >
         Title
-        <FaIcon
-          class="ml-2"
-          @icon="angle-down"
-          @prefix="fas"
-        />
+        <FaIcon class="ml-2" @icon="angle-down" @prefix="fas" />
       </LinkTo>
       <LinkTo
         class="-ml-px inline-flex items-center px-4 py-2 border border-gray-500 bg-purple-600 leading-5 font-medium text-gray-100 hover:text-white hover:bg-purple-500"
@@ -34,11 +26,7 @@
         @query={{hash s="rating"}}
       >
         Rating
-        <FaIcon
-          class="ml-2"
-          @icon="angle-up"
-          @prefix="fas"
-        />
+        <FaIcon class="ml-2" @icon="angle-up" @prefix="fas" />
       </LinkTo>
       <LinkTo
         type="button"
@@ -47,11 +35,7 @@
         @query={{hash s="-rating"}}
       >
         Rating
-        <FaIcon
-          class="ml-2"
-          @icon="angle-down"
-          @prefix="fas"
-        />
+        <FaIcon class="ml-2" @icon="angle-down" @prefix="fas" />
       </LinkTo>
     </span>
   {{/if}}
@@ -64,34 +48,16 @@
       value={{this.searchTerm}}
       {{on "input" this.updateSearchTerm}}
     />
-    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-      <FaIcon
-        class="h-5 w-5 text-gray-400"
-        @icon="search"
-        @prefix="fas"
-      />
+    <div
+      class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+    >
+      <FaIcon class="h-5 w-5 text-gray-400" @icon="search" @prefix="fas" />
     </div>
   </div>
 </div>
-{{#if this.sortedSongs.length}}
-  <ul>
-    {{#each this.sortedSongs as |song|}}
-      <li class="mb-2" data-test-rr="song-list-item">
-        {{capitalize song.title}}
-        <span class="float-right">
-          <StarRating
-            @rating={{song.rating}}
-            @onUpdate={{fn this.updateRating song}}
-          />
-        </span>
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p class="text-center" data-test-rr="no-songs-text">
-    The band has no songs yet.
-  </p>
-{{/if}}
+
+<SongList @band={{this.model}} />
+
 {{#if this.showAddSong}}
   <div class="flex justify-center mt-2">
     <button
@@ -116,7 +82,8 @@
     />
     <button
       type="button"
-      class="ml-4 px-4 py-2 rounded shadow-md hover:shadow-lg hover:text-white {{if this.hasNoTitle "bg-purple-500" "bg-purple-600"}}"
+      class="ml-4 px-4 py-2 rounded shadow-md hover:shadow-lg hover:text-white
+        {{if this.hasNoTitle 'bg-purple-500' 'bg-purple-600'}}"
       disabled={{this.hasNoTitle}}
       {{on "click" this.saveSong}}
     >
