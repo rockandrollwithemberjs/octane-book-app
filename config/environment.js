@@ -46,6 +46,7 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     ENV.apiHost = 'https://json-api.rockandrollwithemberjs.com';
+    ENV['ember-cli-mirage'].enabled = false;
   }
 
   return ENV;
