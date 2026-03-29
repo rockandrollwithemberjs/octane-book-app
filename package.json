@@ -21,6 +21,7 @@
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
+    "start:prod": "serve dist",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
     "test:ember": "ember test"
   },
@@ -90,5 +91,8 @@
   },
   "ember": {
     "edition": "octane"
+  },
+  "dependencies": {
+    "serve": "^14.2.6"
   }
 }
